@@ -1,0 +1,11 @@
+TAG: nom
+:
+USER: email, password
+
+AVOIR, 0N TAG, 01 CARD
+:
+CREE, 01 LISTE, 0N USER
+
+CARD: _description, ordre
+APPARTIENT, 11 CARD, 0N LISTE
+LISTE: nom, ordre
