@@ -1,5 +1,6 @@
 const userController = require('./controllers/userController');
 const listController = require('./controllers/listController');
+const cardController = require('./controllers/cardController');
 
 
 const express = require('express');
@@ -20,6 +21,13 @@ router.get('/lists', listController.getAllLists)
 router.get('/list/:id', listController.getOneList)
 router.patch('/list-edit/:id', listController.editList)
 router.delete('/list-delete/:id', listController.deleteList)
+
+// Route Card
+router.post('/card-create', cardController.createCard)
+router.get('/cards', cardController.getAllCards)
+router.get('/card/:id', cardController.getOneCard)
+router.patch('/card-edit/:id', cardController.editCard)
+router.delete('/card-delete/:id', cardController.deleteCard)
 
 
 
