@@ -9,6 +9,7 @@ const app = express();
 app.use(router);
 require('./app/db');
 
+app.use(express.urlencoded({extended: true}));
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT} ...`);
