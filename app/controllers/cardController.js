@@ -1,4 +1,6 @@
 const Card = require('../models/card.model');
+const List = require('../models/list.model');
+
 
 const cardController = {
 
@@ -32,6 +34,9 @@ const cardController = {
     const body = req.body;
 
     try {
+      // recuperer la liste
+      const list = await List.findById(cardId);
+      
       const newCard = new Card(body);
       await newCard.save().then(() => {
         res.json(newCard)
