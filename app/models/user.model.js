@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
+require('../models/list.model');
 
 const userSchema = schema({
     email: {type: String, required: true},

@@ -1,10 +1,11 @@
 const List = require('../models/list.model');
+const Card = require('../models/card.model');
 
 const listController = {
 
   getAllLists: async (req, res) => {
     try {
-      const lists = await List.find({});
+      const lists = await List.find({}).populate('card');
       res.json(lists)
     } catch (error) {
       console.trace(error);
@@ -29,12 +30,16 @@ const listController = {
   },
 
   createList: async (req, res) => {
-    const body = req.body;
-
+    
     try {
-      const newlist = new List(body);
+      
+      const newlist = new List({
+        name: req.body.name,
+        position: req.body.position,
+        card: req.body.cardId
+      });
       await newlist.save().then(() => {
-        res.json(newlist)
+        res.status(201).json({message: 'Liste crée', newlist})
       })
     } catch (error) {
       res.status(500).json(`Impossible de creer la liste`)

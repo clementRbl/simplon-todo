@@ -6,7 +6,7 @@ const cardController = {
 
   getAllCards: async (req, res) => {
     try {
-      const cards = await Card.find({});
+      const cards = await Card.find({}).populate('list');
       res.json(cards)
     } catch (error) {
       console.trace(error);
@@ -31,15 +31,17 @@ const cardController = {
   },
 
   createCard: async (req, res) => {
-    const body = req.body;
 
     try {
-      // recuperer la liste
-      const list = await List.findById(cardId);
-      
-      const newCard = new Card(body);
+
+      const newCard = new Card({
+        content: req.body.content,
+        color: req.body.color,
+        position: req.body.position,
+        list: req.body.listId
+      });
       await newCard.save().then(() => {
-        res.json(newCard)
+        res.json({message: 'Carte crée', newCard})
       })
     } catch (error) {
       res.status(500).json(`Impossible de créer la carte`)
@@ -90,9 +92,26 @@ const cardController = {
       console.trace(error);
       res.status(500).json(error);
   }
+  },
+
+  addCardToList: async (req, res) => {
+    try {
+    const listId = req.params.id;
+    const {cardId} = req.body;
+
+    let list = await List.findById(listId);
+    if (cardId) {
+      list.cardId = cardId
+    }
+
+    await list.save();
+    res.status(201).json({message: 'Carte ajouté à la liste', list})
+  } catch {
+    console.trace(error);
+    res.status(500).json(error);
   }
 
-}
+}}
 
 
 

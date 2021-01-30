@@ -15,6 +15,8 @@ router.get('/', (req, res) => {
 router.post('/auth/signup', userController.signup);
 router.post('/auth/signin', userController.signin);
 router.get('/auth/logout', auth, userController.logout);
+router.get('/auth/users', userController.getAllUsers);
+
 
 // Route List
 router.post('/list-create', auth, listController.createList)
@@ -28,6 +30,7 @@ router.post('/card-create', auth, cardController.createCard)
 router.get('/cards',  auth, cardController.getAllCards)
 router.get('/card/:id', auth, cardController.getOneCard)
 router.patch('/card-edit/:id', auth, cardController.editCard)
+router.put('/card-to-list/:id', auth, cardController.addCardToList)
 router.delete('/card-delete/:id', auth, cardController.deleteCard)
 
 

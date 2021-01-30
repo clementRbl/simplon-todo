@@ -1,9 +1,21 @@
 const User = require('../models/user.model');
+require('../models/list.model');
+
 const bcrypt = require('bcrypt');
 const emailValidator = require('email-validator');
 const jwt = require('jsonwebtoken');
 
 const userController = {
+  getAllUsers: async (req, res) => {
+    try {
+      const users = await User.find({}).populate('list');
+      res.json(users)
+    } catch (error) {
+      console.trace(error);
+      res.status(500).json(error);
+    }
+  },
+
   signup: async (req, res) => {
     const {email, password} = req.body;
 
