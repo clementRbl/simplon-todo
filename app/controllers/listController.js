@@ -5,7 +5,7 @@ const listController = {
 
   getAllLists: async (req, res) => {
     try {
-      const lists = await List.find({}).populate('card');
+      const lists = await List.find({});
       res.json(lists)
     } catch (error) {
       console.trace(error);
@@ -35,8 +35,7 @@ const listController = {
       
       const newlist = new List({
         name: req.body.name,
-        position: req.body.position,
-        card: req.body.cardId
+        position: req.body.position
       });
       await newlist.save().then(() => {
         res.status(201).json({message: 'Liste crée', newlist})
@@ -86,7 +85,7 @@ const listController = {
       console.trace(error);
       res.status(500).json(error);
   }
-  }
+  },
 
 }
 

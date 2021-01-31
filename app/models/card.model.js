@@ -5,7 +5,7 @@ const cardShema = schema({
   content: {type: String, required: true},
   color: {type: String, default: "#fff"},
   position: {type: String, default: 0, required: true},
-  list: { type: mongoose.Schema.Types.ObjectId, ref: 'list'}
+  list: {type: mongoose.Schema.Types.ObjectId, ref: 'list', required: true}
 }, {timestamps: true});
 
 

@@ -6,7 +6,7 @@ const cardController = {
 
   getAllCards: async (req, res) => {
     try {
-      const cards = await Card.find({}).populate('list');
+      const cards = await Card.find({}).populate('list', 'name');
       res.json(cards)
     } catch (error) {
       console.trace(error);
@@ -17,7 +17,7 @@ const cardController = {
   getOneCard: async (req, res) => {
     try {
       const cardId = req.params.id;
-      const card = await Card.findById(cardId);
+      const card = await Card.findById(cardId).populate('list');
       if (card) {
         res.json(card)
       } else {
