@@ -68,7 +68,7 @@ const userController = {
         throw Error(`Ce mot de passe n'est pas valide`)
       }
 
-      const token = jwt.sign({ id: user._id }, 'RANDOM_TOKEN_SECRET');
+      const token = jwt.sign({ id: user._id, email: user.email }, 'RANDOM_TOKEN_SECRET');
       res.cookie('auth-token', token, { httpOnly: true });
 
       res.send({ token }); 

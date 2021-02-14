@@ -5,6 +5,7 @@ require('../models/list.model');
 const userSchema = schema({
     email: {type: String, required: true},
     password: {type: String, required: true},
+  
 }, {timestamps: true});
 
 

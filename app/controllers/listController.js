@@ -5,7 +5,7 @@ const listController = {
 
   getAllLists: async (req, res) => {
     try {
-      const lists = await List.find({});
+      const lists = await List.find({}).populate('user');
       res.json(lists)
     } catch (error) {
       console.trace(error);

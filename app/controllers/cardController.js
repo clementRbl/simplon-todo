@@ -1,5 +1,6 @@
 const Card = require('../models/card.model');
 const List = require('../models/list.model');
+const Tag = require('../models/tag.model');
 
 
 const cardController = {
@@ -93,25 +94,7 @@ const cardController = {
       res.status(500).json(error);
   }
   },
-
-  addCardToList: async (req, res) => {
-    try {
-    const listId = req.params.id;
-    const {cardId} = req.body;
-
-    let list = await List.findById(listId);
-    if (cardId) {
-      list.cardId = cardId
-    }
-
-    await list.save();
-    res.status(201).json({message: 'Carte ajouté à la liste', list})
-  } catch {
-    console.trace(error);
-    res.status(500).json(error);
-  }
-
-}}
+}
 
 
 
