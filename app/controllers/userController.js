@@ -4,6 +4,7 @@ require('../models/list.model');
 const bcrypt = require('bcrypt');
 const emailValidator = require('email-validator');
 const jwt = require('jsonwebtoken');
+const { findUserPerEmail } = require('../queries/user.queries');
 
 const userController = {
   getAllUsers: async (req, res) => {
@@ -53,34 +54,31 @@ const userController = {
 
   },
 
-  signin: async (req, res) => {
-    const {email, password} = req.body;
+  signin: async (req, res, next) => {
+    
     try {
-      const user = await User.findOne({'email': email});
-
-      if (!user) {
-        throw Error(`Cette adresse email n'existe pas`)
+      const { email, password } = req.body;
+      const user = await findUserPerEmail(email);
+      if (user) {
+        const match = await user.comparePassword(password);
+        if (match) {
+          req.login(user);
+          res.json({message: 'user matched', user})
+        } else {
+          res.json({message: 'user not matched !'})
+        }
+      } else {
+        res.json({message: 'Veuillez essayé de vous reconnecter'})
       }
-
-      const isPasswordValid = bcrypt.compareSync(password, user.password);
-
-      if (!isPasswordValid) {
-        throw Error(`Ce mot de passe n'est pas valide`)
-      }
-
-      const token = jwt.sign({ id: user._id, email: user.email }, 'RANDOM_TOKEN_SECRET');
-      res.cookie('auth-token', token, { httpOnly: true });
-
-      res.send({ token }); 
 
     } catch (error) {
-      res.status(500).json(`Impossible de se connecter`);
-      console.trace(error);
+      next(error)
     }
+    
   },
 
   logout: async (req, res) => {
-    res.clearCookie('auth-token', { path: '/' }).send('Utilisateur déconnecté');
+    req.logout().send('Utilisateur déconnecté');
   },
 }
 

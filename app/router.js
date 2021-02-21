@@ -3,10 +3,11 @@ const listController = require('./controllers/listController');
 const cardController = require('./controllers/cardController');
 const tagController = require('./controllers/tagController');
 
+const { ensureAuthenticated } = require('./config/security.config');
+
 
 const express = require('express');
 const router = express.Router();
-const {auth} = require('./middlewares/auth');
 
 router.get('/', (req, res) => {
   res.send('hello todo');
@@ -15,28 +16,28 @@ router.get('/', (req, res) => {
 // Routes Auth
 router.post('/auth/signup', userController.signup);
 router.post('/auth/signin', userController.signin);
-router.get('/auth/logout', auth, userController.logout);
-router.get('/auth/users', userController.getAllUsers);
+router.get('/auth/logout',  userController.logout);
+router.get('/auth/users', ensureAuthenticated, userController.getAllUsers);
 
 
 // Route List
-router.post('/list-create', auth, listController.createList)
-router.get('/lists', auth, listController.getAllLists)
-router.get('/list/:id', auth, listController.getOneList)
-router.patch('/list-edit/:id', auth, listController.editList)
-router.delete('/list-delete/:id', auth, listController.deleteList)
+router.post('/list-create', ensureAuthenticated, listController.createList)
+router.get('/lists', ensureAuthenticated, listController.getAllLists)
+router.get('/list/:id', ensureAuthenticated, listController.getOneList)
+router.patch('/list-edit/:id', ensureAuthenticated, listController.editList)
+router.delete('/list-delete/:id', ensureAuthenticated, listController.deleteList)
 
 // Route Card
-router.post('/card-create', auth, cardController.createCard)
-router.get('/cards',  auth, cardController.getAllCards)
-router.get('/card/:id', auth, cardController.getOneCard)
-router.patch('/card-edit/:id', auth, cardController.editCard)
-router.delete('/card-delete/:id', auth, cardController.deleteCard)
+router.post('/card-create', ensureAuthenticated, cardController.createCard)
+router.get('/cards', ensureAuthenticated, cardController.getAllCards)
+router.get('/card/:id', ensureAuthenticated, cardController.getOneCard)
+router.patch('/card-edit/:id', ensureAuthenticated, cardController.editCard)
+router.delete('/card-delete/:id', ensureAuthenticated, cardController.deleteCard)
 
 // Route Tag
-router.get('/tags',  auth, tagController.getAllTags)
-router.post('/tag-create', auth, tagController.createTag)
-router.delete('/tag-delete/:id', auth, tagController.deleteTag)
+router.get('/tags', ensureAuthenticated, tagController.getAllTags)
+router.post('/tag-create', ensureAuthenticated, tagController.createTag)
+router.delete('/tag-delete/:id', ensureAuthenticated, tagController.deleteTag)
 
 
 
