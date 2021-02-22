@@ -1,12 +1,12 @@
 
 const Tag = require('../models/tag.model');
-
+const Card = require('../models/card.model');
 
 const tagController = {
 
   getAllTags: async (req, res) => {
     try {
-      const tags = await Tag.find({}).populate('card', ['color', 'position', 'content', 'list']);
+      const tags = await Tag.find({}).populate('card');
       res.json(tags)
     } catch (error) {
       console.trace(error);

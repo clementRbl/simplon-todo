@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
+const nodemailer = require('nodemailer');
 
 const cookieParser = require('cookie-parser')
 const express = require('express');

@@ -1,5 +1,7 @@
 const List = require('../models/list.model');
 const Card = require('../models/card.model');
+const User = require('../models/card.model');
+
 
 const listController = {
 
@@ -35,7 +37,8 @@ const listController = {
       
       const newlist = new List({
         name: req.body.name,
-        position: req.body.position
+        position: req.body.position,
+        user: req.body.userId
       });
       await newlist.save().then(() => {
         res.status(201).json({message: 'Liste crée', newlist})

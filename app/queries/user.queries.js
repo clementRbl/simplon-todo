@@ -7,3 +7,5 @@ exports.findUserPerEmail = (email) => {
 exports.findUserPerId = (id) => {
   return User.findOne({ _id: id }).exec();
 }
+
+// Requete pour récuperer la liste créé par le user actuel
